@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turkey Cooking Time Calculator</title>
+
+<style>
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .container {
+    max-width: 420px;
+    margin: auto;
+    background: white;
+    padding: 1.2rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 1rem;
+  }
+
+  .value {
+    font-weight: 500;
+    color: #555;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .checkbox-group {
+    margin-top: 1rem;
+  }
+
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .result {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #eef6ff;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .result strong {
+    font-size: 1.4rem;
+    display: block;
+  }
+
+  .formula {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #fafafa;
+    border-radius: 10px;
+    font-size: 0.9rem;
+  }
+
+  .formula code {
+    display: block;
+    background: #fff;
+    padding: 0.6rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+
+  .note {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>🦃 Turkey Cooking Time</h1>
+
+  <label>
+    Weight: <span class="value" id="weightValue">6.0</span> kg
+  </label>
+  <input type="range" id="weight" min="2" max="10" step="0.1" value="6">
+
+  <label>
+    Oven Temperature: <span class="value" id="tempValue">180</span> °C
+  </label>
+  <input type="range" id="temp" min="150" max="200" step="5" value="180">
+
+  <div class="checkbox-group">
+    <label>
+      <input type="checkbox" id="stuffed">
+      Stuffed turkey (+20%)
+    </label>
+
+    <label>
+      <input type="checkbox" id="fan">
+      Fan / convection oven (−10%)
+    </label>
+  </div>
+
+  <div class="result">
+    <strong id="minutes">—</strong>
+    <span id="hours">—</span>
+  </div>
+
+  <div class="formula">
+    <strong>How this is calculated</strong>
+    <code>
+      Minutes = 31 × w × (165 ÷ T) × S × F
+    </code>
+    <div style="margin-top:0.5rem;">
+      w = weight (kg)<br>
+      T = oven temperature (°C)<br>
+      S = 1.0 unstuffed • 1.2 stuffed<br>
+      F = 1.0 conventional • 0.9 fan oven
+    </div>
+  </div>
+
+  <div class="note">
+    Always check internal temperature:
+    Breast 74 °C • Thigh 79–82 °C • Stuffing 74 °C
+  </div>
+</div>
+
+<script>
+  const weightSlider = document.getElementById("weight");
+  const tempSlider = document.getElementById("temp");
+  const stuffedBox = document.getElementById("stuffed");
+  const fanBox = document.getElementById("fan");
+
+  const weightValue = document.getElementById("weightValue");
+  const tempValue = document.getElementById("tempValue");
+  const minutesOutput = document.getElementById("minutes");
+  const hoursOutput = document.getElementById("hours");
+
+  function calculate() {
+    const w = parseFloat(weightSlider.value);
+    const T = parseFloat(tempSlider.value);
+
+    const S = stuffedBox.checked ? 1.2 : 1.0;
+    const F = fanBox.checked ? 0.9 : 1.0;
+
+    const minutes = 31 * w * (165 / T) * S * F;
+
+    const rounded = Math.round(minutes);
+    const hrs = Math.floor(rounded / 60);
+    const mins = rounded % 60;
+
+    weightValue.textContent = w.toFixed(1);
+    tempValue.textContent = T;
+
+    minutesOutput.textContent = `${rounded} minutes`;
+    hoursOutput.textContent = `${hrs} hr ${mins} min`;
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+</script>
+</body>
+</html>
