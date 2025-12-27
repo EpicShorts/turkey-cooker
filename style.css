@@ -1,100 +1,352 @@
-body { 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; 
-  background: #f7f7f7; 
-  margin: 0; 
-  padding: 1rem; 
+:root {
+  --primary: #0f172a;
+  --primary-light: #1e293b;
+  --accent: #d97706;
+  /* Warm amber/orange */
+  --accent-hover: #b45309;
+  --text: #334155;
+  --text-light: #64748b;
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --card-bg: #ffffff;
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --radius: 16px;
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-.container { 
-  max-width: 420px; 
-  margin: auto; 
-  background: white; 
-  padding: 1.2rem; 
-  border-radius: 14px; 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+body {
+  font-family: var(--font-main);
+  background: var(--bg-gradient);
+  color: var(--text);
+  margin: 0;
+  min-height: 100vh;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
-h1 { 
-  font-size: 1.4rem; 
-  text-align: center; 
-  margin-bottom: 1rem; 
+.app-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-label { 
-  font-weight: 600; 
-  display: block; 
-  margin-top: 1rem; 
+/* Header */
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.value { 
-  font-weight: 500; 
-  color: #555; 
+.app-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
 }
 
-input[type="range"], input[type="time"] { 
-  width: 100%; 
-  margin-top: 0.5rem; 
-  touch-action: pan-x; 
+.subtitle {
+  color: var(--text-light);
+  margin: 0;
+  font-size: 1rem;
 }
 
-input[type="range"] { 
-  height: 36px; 
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.checkbox-group label { 
-  display: flex; 
-  align-items: center; 
-  gap: 0.5rem; 
-  margin-top: 0.5rem; 
-  font-weight: 500; 
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.result, .formula, .note, .timetable { 
-  margin-top: 1.5rem; 
-  padding: 1rem; 
-  border-radius: 10px; 
+/* Inputs */
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
 }
 
-.result { 
-  background: #eef6ff; 
-  text-align: center; 
+label {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 0.95rem;
 }
 
-.result strong { 
-  font-size: 1.4rem; 
-  display: block; 
+.value-badge {
+  background: var(--primary-light);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-.formula { 
-  background: #fafafa; 
-  font-size: 0.9rem; 
+/* Range Sliders */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
 }
 
-.formula code { 
-  display: block; 
-  background: #fff; 
-  padding: 0.6rem; 
-  border-radius: 6px; 
-  margin-top: 0.5rem; 
+input[type="range"]:focus {
+  outline: none;
 }
 
-.note { 
-  font-size: 0.85rem; 
-  color: #666; 
-  text-align: center; 
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-.timetable { 
-  background: #fffbe6; 
+input[type="range"]::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -7px;
+  box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.2);
+  transition: transform 0.1s;
 }
 
-.timetable h2 { 
-  font-size: 1.1rem; 
-  margin-top: 0; 
-  text-align: center; 
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
 }
 
-.timetable ul { 
-  padding-left: 1.2rem; 
-  margin-top: 0.5rem; 
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+
+/* Toggles */
+.toggles-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.toggle-label:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.toggle-label input {
+  display: none;
+}
+
+.toggle-custom {
+  width: 40px;
+  height: 24px;
+  background: #e2e8f0;
+  border-radius: 99px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.toggle-custom::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-label input:checked+.toggle-custom {
+  background: var(--accent);
+}
+
+.toggle-label input:checked+.toggle-custom::after {
+  transform: translateX(16px);
+}
+
+.toggle-label .text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--primary);
+  line-height: 1.3;
+}
+
+.toggle-label .sub-text {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* Time Input */
+.modern-time-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  color: var(--primary);
+  box-sizing: border-box;
+}
+
+/* Results */
+.result-section {
+  background: var(--primary);
+  color: white;
+}
+
+.result-header {
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+.result-main .label {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.big-time {
+  font-size: 3.5rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.detail-time {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.resting-info {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 99px;
+  font-size: 0.9rem;
+}
+
+/* Timeline */
+.timetable-wrapper h2 {
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+  margin-left: 1rem;
+}
+
+.timeline li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.timeline li:last-child {
+  margin-bottom: 0;
+}
+
+.timeline li::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  /* Align with border-left */
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--primary);
+}
+
+/* Footer Formula */
+.app-footer {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+.formula-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.formula-box code {
+  display: block;
+  font-family: monospace;
+  background: #f1f5f9;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin: 0.75rem 0;
+  color: var(--primary);
+}
+
+.formula-legend {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.temp-guide strong {
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .toggles-group {
+    grid-template-columns: 1fr;
+  }
+
+  .big-time {
+    font-size: 2.5rem;
+  }
 }

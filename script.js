@@ -41,55 +41,66 @@ function calculate() {
   weightValue.textContent = w.toFixed(1);
   tempValue.textContent = T;
   restValue.textContent = restMinutes;
-  minutesOut.textContent = `${totalCook} minutes`;
-  hoursOut.textContent = `${Math.floor(totalCook/60)} hr ${totalCook%60} min (+ ${restMinutes} min rest)`;
+  
+  // Format nicely: e.g. "3h 15m"
+  const h = Math.floor(totalCook/60);
+  const m = totalCook % 60;
+  const timeString = h > 0 ? `${h}h ${m}m` : `${m}m`;
+  
+  minutesOut.textContent = timeString;
+  hoursOut.textContent = `(${totalCook} minutes total)`;
 
   // Timetable calculation
   if(readyTime.value){
     const [h,m] = readyTime.value.split(":").map(Number);
     const ready = new Date();
     ready.setHours(h,m,0,0);
-
+    
+    // Handle day rollover if needed (simple check)
+    // If ready time is in the past relative to now, we might usually assume it's for 'today' or 'tomorrow'.
+    // But for a simple calc, just using the Date object as is, is fine.
+    
     const startCooking = new Date(ready.getTime() - (totalCook + restMinutes)*60000);
-    const preheatTime = 15; // minutes
+    const preheatTime = 20; // Increased to 20 for safety/realism
     const preheatStart = new Date(startCooking.getTime() - preheatTime*60000);
 
     const bastingInterval = 45; // minutes
 
     timetableList.innerHTML = '';
+    
+    // Helper for items
+    const addItem = (time, text, isHighlight = false) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${formatTime(time)}</strong> ${text}`;
+        if(isHighlight) li.style.color = 'var(--text)'; // specific highlight if needed
+        timetableList.appendChild(li);
+    };
+
     // Preheat
-    const liPreheat = document.createElement('li');
-    liPreheat.textContent = `Start preheating oven at ${formatTime(preheatStart)}`;
-    timetableList.appendChild(liPreheat);
+    addItem(preheatStart, "Start preheating oven");
 
     // Put in oven
-    const liPutIn = document.createElement('li');
-    liPutIn.textContent = `Put turkey in oven at ${formatTime(startCooking)}`;
-    timetableList.appendChild(liPutIn);
+    addItem(startCooking, "Put turkey in oven");
 
     // Add basting times
     const numBastes = Math.floor(totalCook / bastingInterval);
     for(let i=1;i<=numBastes;i++){
       const bastingTime = new Date(startCooking.getTime() + bastingInterval*i*60000);
-      if(bastingTime < new Date(startCooking.getTime() + totalCook*60000)){
-        const liBaste = document.createElement('li');
-        liBaste.textContent = `Baste at ${formatTime(bastingTime)}`;
-        timetableList.appendChild(liBaste);
+      // Don't baste if it's within the last 20 mins of cooking
+      if(bastingTime < new Date(startCooking.getTime() + (totalCook-20)*60000)){
+        addItem(bastingTime, "Baste turkey");
       }
     }
 
     // Take out to rest
-    const liCookEnd = document.createElement('li');
-    liCookEnd.textContent = `Take turkey out at ${formatTime(new Date(startCooking.getTime() + totalCook*60000))} to rest`;
-    timetableList.appendChild(liCookEnd);
+    const restStart = new Date(startCooking.getTime() + totalCook*60000);
+    addItem(restStart, "Take out to rest (Cover with foil)");
 
     // Serve
-    const liServe = document.createElement('li');
-    liServe.textContent = `Serve at ${formatTime(ready)}`;
-    timetableList.appendChild(liServe);
+    addItem(ready, "Carve and Serve! 🦃");
 
   } else {
-    timetableList.innerHTML = '<li>—</li>';
+    timetableList.innerHTML = '<li>Set a "Ready by" time to see the schedule</li>';
   }
 }
 

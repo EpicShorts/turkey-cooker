@@ -1,54 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Turkey Cooking Planner</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turkey Cooking Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <h1>🦃 Turkey Cooking Planner</h1>
+    <div class="app-wrapper">
+        <header class="app-header">
+            <h1>Turkey Cooking Planner</h1>
+            <p class="subtitle">Perfect roast calculation, every time.</p>
+        </header>
 
-  <label>Weight: <span class="value" id="weightValue">6.0</span> kg</label>
-  <input type="range" id="weight" min="2" max="12" step="0.1" value="6">
+        <main class="container">
+            <section class="card input-section">
+                <div class="input-group">
+                    <div class="label-row">
+                        <label for="weight">Weight (kg)</label>
+                        <span class="value-badge"><span id="weightValue">6.0</span> kg</span>
+                    </div>
+                    <div class="range-wrapper">
+                        <input type="range" id="weight" min="2" max="12" step="0.1" value="6">
+                        <div class="range-labels">
+                            <span>2kg</span>
+                            <span>12kg</span>
+                        </div>
+                    </div>
+                </div>
 
-  <label>Oven Temperature: <span class="value" id="tempValue">180</span> °C</label>
-  <input type="range" id="temp" min="150" max="200" step="1" value="180">
+                <div class="input-group">
+                    <div class="label-row">
+                        <label for="temp">Oven Temperature (°C)</label>
+                        <span class="value-badge"><span id="tempValue">180</span> °C</span>
+                    </div>
+                    <div class="range-wrapper">
+                        <input type="range" id="temp" min="150" max="200" step="5" value="180">
+                        <div class="range-labels">
+                            <span>150°C</span>
+                            <span>200°C</span>
+                        </div>
+                    </div>
+                </div>
 
-  <div class="checkbox-group">
-    <label><input type="checkbox" id="stuffed">Stuffed turkey (+20%)</label>
-    <label><input type="checkbox" id="fan">Fan / convection oven (−10%)</label>
-  </div>
+                <div class="toggles-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="stuffed">
+                        <span class="toggle-custom"></span>
+                        <span class="text">Stuffed turkey <span class="sub-text">(+20% time)</span></span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="fan">
+                        <span class="toggle-custom"></span>
+                        <span class="text">Fan / Convection <span class="sub-text">(−10% time)</span></span>
+                    </label>
+                </div>
 
-  <label>Ready by:</label>
-  <input type="time" id="readyTime">
+                <div class="input-group time-input-group">
+                    <label for="readyTime">Target Ready Time</label>
+                    <input type="time" id="readyTime" class="modern-time-input">
+                </div>
+            </section>
 
-  <div class="result">
-    <strong id="minutes">—</strong>
-    <span id="hours">—</span>
-    <div>Resting time: <span id="restValue">—</span> minutes</div>
-  </div>
+            <section class="card result-section">
+                <div class="result-header">
+                    <div class="result-main">
+                        <span class="label">Total Cooking Time</span>
+                        <strong id="minutes" class="big-time">—</strong>
+                        <span id="hours" class="detail-time">—</span>
+                    </div>
+                    <div class="resting-info">
+                        <span class="icon">⏳</span>
+                        <span>Resting time: <strong id="restValue">—</strong> min</span>
+                    </div>
+                </div>
 
-  <div class="timetable">
-    <h2>Cooking Timetable</h2>
-    <ul id="timetableList"><li>—</li></ul>
-  </div>
+                <div class="timetable-wrapper">
+                    <h2>Schedule</h2>
+                    <ul id="timetableList" class="timeline">
+                        <li>—</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
 
-  <div class="formula">
-    <strong>How this is calculated</strong>
-    <code>Minutes = 31 × w × (165 ÷ T) × S × F</code>
-    w = weight (kg)<br>
-    T = temperature (°C)<br>
-    S = 1.0 unstuffed • 1.2 stuffed<br>
-    F = 1.0 conventional • 0.9 fan oven
-  </div>
-
-  <div class="note">
-    Internal temps: Breast 74 °C • Thigh 79–82 °C • Stuffing 74 °C
-  </div>
-</div>
-
-<script src="script.js"></script>
+        <footer class="app-footer">
+            <div class="formula-box">
+                <strong>Calculation Formula</strong>
+                <code>Minutes = 31 × w × (165 ÷ T) × S × F</code>
+                <p class="formula-legend">
+                    w = weight (kg) • T = temp (°C) • S = stuffing factor • F = fan factor
+                </p>
+            </div>
+            <div class="temp-guide">
+                <span>Internal Temps:</span> Breast <strong>74°C</strong> • Thigh <strong>79–82°C</strong> • Stuffing <strong>74°C</strong>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
