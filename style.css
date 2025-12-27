@@ -207,13 +207,24 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* Time Input */
 .modern-time-input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   font-family: var(--font-main);
   font-size: 1rem;
   color: var(--primary);
   box-sizing: border-box;
+
+  /* iOS Fixes */
+  background-color: #ffffff;
+  -webkit-appearance: none;
+  appearance: none;
+
+  /* Icon hint */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2rem;
 }
 
 /* Results */
